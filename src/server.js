@@ -14,8 +14,12 @@ const host=process.env.HOST_NAME;
 //config template engine 
 templateEngineConfig(app);
 
+//pass data from Form 
+app.use(express.json()); // Used to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
+
 //router
-app.use('/web-router', webRouter);
+app.use('/', webRouter);
 
 (async ()=>{
     try {

@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
+const mongoose_delete = require('mongoose-delete');
 require('dotenv').config();
 
 const usersSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            require: true
+            required: true
         },
         email: String,
         city: String,
     },
     { timestamps: true }
 );
+
+usersSchema.plugin(mongoose_delete, { overrideMethods: 'all' });
 
 const User = mongoose.model('User', usersSchema);
 
