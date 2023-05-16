@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/create">Create Users</a>
+    </div>
+    <div class="table-content">
+        <h2>List Users</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>City</th>
+                <th>Actions</th>
+            </tr>
+            <% listUser.forEach(user=>{ %>
+                <tr>
+                    <td><%=user.id %></td>
+                    <td><%=user.name %></td>
+                    <td><%=user.email %></td>
+                    <td><%=user.city %></td>
+                    <td class="actions">
+                        <a href="/update/<%=user.id %>" class="edit">Edit</a>
+                        <form action="delete-user/<%=user.id %>" method="POST">
+                            <button class="delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </table>
+    </div>
+    
+</body>
+</html>
