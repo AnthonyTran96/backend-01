@@ -38,6 +38,7 @@ module.exports = {
     postCreateACustomerApi: async (req, res) =>{
         try {
             const customerData = req.body;
+            console.log(customerData);
             const result = await createUser (customerData);
             return res.status(201).json({
                 errorCode: 0,
