@@ -8,6 +8,7 @@ const getAllUsers = async (query)=>{
     const limit = query.limit;
     const page = query.page;
     delete filter.page;
+    if (filter.name) filter.name = { $regex: filter.name };
     if (limit&&page) {
         const skip = (page-1)*limit;
         try {
