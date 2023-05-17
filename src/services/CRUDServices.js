@@ -1,13 +1,38 @@
 const User = require ('../models/userModel');
+const aqp = require ('api-query-params');
 
-const getAllUsers = async ()=>{
-    const userList = await User.find({});
-    return userList;
+const getAllUsers = async (query)=>{
+    if (!query) query={};
+    const { filter } = aqp(query);
+    const limit = query.limit;
+    const page = query.page;
+    delete filter.page;
+    if (limit&&page) {
+        const skip = (page-1)*limit;
+        try {
+            const userList = await User.find(filter).skip(skip).limit(limit).exec();
+            return userList;
+        } catch (error) {
+            return error;
+        }
+    } else {
+        try {
+            const userList = await User.find(filter);
+            return userList;
+        } catch (error) {
+            return error;
+        }
+    }
 }
 
 const getAnUser = async (id)=>{
     const user = await User.findOne({_id:id}).exec();;
     return user;
+}
+
+const getMultiUsers = async (arrayIds)=>{
+    const userArr = await User.find({_id: {$in: arrayIds}});
+    return userArr;
 }
 
 const createUser = async (userData)=>{
@@ -41,13 +66,20 @@ const deleteUser = async (id)=>{
     return result;
 }
 
+const deleteMultiUsers = async (arrayIds)=>{
+    const result = await User.delete({_id: {$in: arrayIds}});
+    return result;
+}
+
 
 module.exports = {
     getAllUsers,
     getAnUser,
+    getMultiUsers,
     createUser,
     createMultiUsers,
     getUserById,
     updateUser,
     deleteUser,
+    deleteMultiUsers
 }

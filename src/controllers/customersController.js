@@ -1,9 +1,10 @@
-const {getAllUsers, getAnUser, createUser, createMultiUsers, updateUser} = require ('../services/CRUDServices');
+const {getAllUsers, getAnUser, getMultiUsers, createUser, createMultiUsers, updateUser, deleteUser, deleteMultiUsers} = require ('../services/CRUDServices');
 
 module.exports = {
     getAllCustomersApi: async (req, res) =>{
         try {
-            const data = await getAllUsers ();
+            const query = req.query;
+            const data = await getAllUsers (query);
             return res.status(200).json({
                 errorCode: 0,
                 data: data,
@@ -86,4 +87,40 @@ module.exports = {
             })
         }
     },
+
+    deleteCustomerByIdApi: async (req,res)=>{
+        try {
+            const id = req.body.id;
+            const data =  await getAnUser(id);
+            await deleteUser (id);
+            return res.status(200).json({
+                errorCode: 0,
+                data: data,
+            })
+        } catch (error) {
+            return res.status(500).json({
+                errorCode: -1,
+                data: null,
+                error: error,
+            })
+        }
+    } , 
+    
+    deleteMultiCustomersApi: async (req,res)=>{
+        try {
+            const arrayIds = req.body.customersId;
+            const data =await getMultiUsers(arrayIds);
+            await deleteMultiUsers (arrayIds);
+            return res.status(200).json({
+                errorCode: 0,
+                data: data,
+            })
+        } catch (error) {
+            return res.status(500).json({
+                errorCode: -1,
+                data: null,
+                error: error,
+            })
+        }
+    }
 }
