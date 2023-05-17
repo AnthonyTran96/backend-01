@@ -1,3 +1,4 @@
+const path = require('path');
 const User = require ('../models/userModel');
 const aqp = require ('api-query-params');
 
@@ -71,6 +72,23 @@ const deleteMultiUsers = async (arrayIds)=>{
     return result;
 }
 
+const uploadSingleFile = (file)=> {
+    const extName = path.extname(file.name);
+    const baseName = path.basename(file.name, extName);
+    const date = Date.now();
+    const finalName = baseName + '-' + date + extName
+    const finalPath = path.resolve(__dirname, '../public/images/upload/');
+    uploadPath = path.join(finalPath,finalName);
+  // Use the mv() method to place the file somewhere on your server
+    file.mv(uploadPath);
+    return finalName;
+}
+
+const uploadMultiFiles = (arr)=> {
+    const finalPaths = arr.map(file=>fileName = uploadSingleFile(file));
+    return finalPaths;
+}
+
 
 module.exports = {
     getAllUsers,
@@ -81,5 +99,7 @@ module.exports = {
     getUserById,
     updateUser,
     deleteUser,
-    deleteMultiUsers
+    deleteMultiUsers,
+    uploadSingleFile,
+    uploadMultiFiles,
 }

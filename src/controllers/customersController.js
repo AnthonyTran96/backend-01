@@ -1,4 +1,4 @@
-const {getAllUsers, getAnUser, getMultiUsers, createUser, createMultiUsers, updateUser, deleteUser, deleteMultiUsers} = require ('../services/CRUDServices');
+const {getAllUsers, getAnUser, getMultiUsers, createUser, createMultiUsers, updateUser, deleteUser, deleteMultiUsers, uploadMultiFiles, uploadSingleFile} = require ('../services/CRUDServices');
 
 module.exports = {
     getAllCustomersApi: async (req, res) =>{
@@ -37,8 +37,20 @@ module.exports = {
     
     postCreateACustomerApi: async (req, res) =>{
         try {
-            const customerData = req.body;
-            console.log(customerData);
+            let customerData = req.body;
+            if (!req.files || Object.keys(req.files).length === 0) {
+
+            } else 
+            {
+                let image = req.files.image;
+                if (Array.isArray(image)) {
+                    const filePaths = uploadMultiFiles(image);
+                    customerData.image = filePaths;
+                }else {
+                    const filePath = uploadSingleFile(image);
+                    customerData.image = [filePath];
+                }  
+            }
             const result = await createUser (customerData);
             return res.status(201).json({
                 errorCode: 0,

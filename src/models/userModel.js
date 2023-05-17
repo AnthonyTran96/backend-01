@@ -10,6 +10,7 @@ const usersSchema = new mongoose.Schema(
         },
         email: String,
         city: String,
+        image: [String],
     },
     { timestamps: true }
 );
