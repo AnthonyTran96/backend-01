@@ -14,7 +14,7 @@ const usersSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-usersSchema.plugin(mongoose_delete, { overrideMethods: ['find'] });
+usersSchema.plugin(mongoose_delete, { overrideMethods: ['find', 'findOne'] });
 
 const User = mongoose.model('User', usersSchema);
 

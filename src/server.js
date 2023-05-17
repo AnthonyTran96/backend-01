@@ -2,6 +2,7 @@ const express = require('express');
 const templateEngineConfig = require('./configs/templateEngineConfig');
 const connection = require('./configs/databaseConfig');
 const webRouter = require('./routes/web');
+const apiRouter = require('./routes/api');
 require('dotenv').config();
 
 const app = express();
@@ -20,6 +21,9 @@ app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
 
 //router
 app.use('/', webRouter);
+
+//use API
+app.use('/api.v1', apiRouter);
 
 (async ()=>{
     try {

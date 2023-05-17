@@ -1,5 +1,4 @@
 const {getAllUsers, createUser,updateUser, getUserById, deleteUser} = require ('../services/CRUDServices');
-const User = require ('../models/userModel');
 
 const getHomePage = async (req, res)=>{
     const result =await getAllUsers();
@@ -19,7 +18,6 @@ const postCreateUser = async (req, res)=>{
 const getUpdatePage = async (req,res)=>{
     const id = req.params.id;
     const userData = await getUserById(id);
-    console.log(userData);
     return res.render('edit.ejs', {user: userData});
 }
 
