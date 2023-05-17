@@ -31,7 +31,8 @@ const getUserById = async (id)=>{
 }
 
 const updateUser = async (updateData)=>{
-    const result = await User.updateOne(updateData);
+    const {id, name, email, city} = updateData;
+    const result = await User.updateOne({_id:id}, {name, email, city});
     return result;
 }
 

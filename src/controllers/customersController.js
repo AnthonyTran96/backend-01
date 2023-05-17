@@ -1,4 +1,4 @@
-const {getAllUsers, getAnUser, createUser, createMultiUsers} = require ('../services/CRUDServices');
+const {getAllUsers, getAnUser, createUser, createMultiUsers, updateUser} = require ('../services/CRUDServices');
 
 module.exports = {
     getAllCustomersApi: async (req, res) =>{
@@ -67,5 +67,23 @@ module.exports = {
                 error: error,
             })
         }
-    }
+    },
+
+    putUpdateCustomerApi: async (req, res) =>{
+        try {
+            const updateData = req.body;
+            await updateUser (updateData);
+            const data = await getAnUser (updateData.id);
+            return res.status(200).json({
+                errorCode: 0,
+                data: data,
+            })
+        } catch (error) {
+            return res.status(500).json({
+                errorCode: -1,
+                data: null,
+                error: error,
+            })
+        }
+    },
 }
